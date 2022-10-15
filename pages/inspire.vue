@@ -1,25 +1,68 @@
 <template>
-  <v-row>
-    <v-col class="text-center">
-      <img
-        src="/v.png"
-        alt="Vuetify.js"
-        class="mb-5"
-      >
-      <blockquote class="blockquote">
-        &#8220;First, solve the problem. Then, write the code.&#8221;
-        <footer>
-          <small>
-            <em>&mdash;John Johnson</em>
-          </small>
-        </footer>
-      </blockquote>
-    </v-col>
-  </v-row>
+  <div class="container-fluid">
+    <v-data-table
+      :headers="headers"
+      :items="cities"
+      :search="search"
+    >
+      <template #top>
+        <v-toolbar
+          flat
+        >
+          <v-text-field
+            v-model="search"
+            append-icon="mdi-magnify"
+            label="Search"
+            hide-details
+          />
+          <v-divider
+            class="mx-4"
+            inset
+            vertical
+          />
+          <v-spacer />
+          <v-btn color="primary" @click="()=>$router.push('create')">
+            Create
+          </v-btn>
+        </v-toolbar>
+      </template>
+    </v-data-table>
+  </div>
 </template>
-
 <script>
 export default {
-  name: 'InspirePage'
+  layout: 'dashboard',
+  data: () => ({
+    cities: [],
+    search: '',
+    headers: [
+      {
+        text: 'Name',
+        align: 'start',
+        value: 'name'
+      },
+      {
+        text: 'Name',
+        align: 'start',
+        value: 'name_mm'
+      },
+      {
+        text: 'Region',
+        align: 'start',
+        value: 'region.name'
+      }
+    ]
+  }),
+  async fetch () {
+    const { data, status } = (await this.$axios.get('/cities')).data
+    console.log(status)
+    this.cities = data
+  }
 }
 </script>
+<style>
+.test{
+  background-color: aquamarine;
+  padding: 90px;
+}
+</style>

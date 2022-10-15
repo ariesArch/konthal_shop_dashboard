@@ -2,6 +2,7 @@
   <div class="container-fluid">
     <v-card width="400" class="mx-auto">
       <v-card-title>Create City</v-card-title>
+      <formButton />
       <v-card-text>
         <v-form @submit.prevent="submitCity">
           <v-autocomplete v-model="region_id" :items="regions" label="Region" item-text="name" item-value="id" />
@@ -12,11 +13,16 @@
           </v-btn>
         </v-form>
       </v-card-text>
+      <formButton />
     </v-card>
   </div>
 </template>
 <script>
+import formButton from '@/components/button/formButton.vue'
 export default {
+  components: {
+    formButton
+  },
   layout: 'dashboard',
   data: () => ({
     regions: [],
