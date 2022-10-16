@@ -79,7 +79,12 @@ export default {
     strategies: {
       laravelSanctum: {
         provider: 'laravel/sanctum',
-        url: process.env.BASE_URL
+        url: process.env.BASE_URL,
+        endpoints: {
+          login: {
+            url: 'auth/login', method: 'POST'
+          }
+        }
       }
     }
   },

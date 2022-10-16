@@ -68,9 +68,8 @@ export default {
       }
       const payload = { email: this.email, password: this.password }
       // const { owner, status } = (await this.$axios.post('/auth/login', payload)).data
-      const { owner, status } = await this.$auth.loginWith('local', {
-        data: payload,
-        methods: 'POST'
+      const { owner, status } = await this.$auth.loginWith('laravelSanctum', {
+        data: payload
       }).data
       if (status === 1) {
         console.log(owner)

@@ -1,6 +1,6 @@
 <template>
   <v-card-actions class="justify-end">
-    <v-btn type="button" color="primary" outlined>
+    <v-btn type="button" color="primary" outlined @click="goBack">
       Cancel
     </v-btn>
     <v-btn type="submit" color="primary" class="my-1" :disabled="disabled">
@@ -14,6 +14,11 @@ export default {
     disabled: {
       type: Boolean,
       default: false
+    }
+  },
+  methods: {
+    goBack () {
+      return this.$router.go('-1')
     }
   }
 }
