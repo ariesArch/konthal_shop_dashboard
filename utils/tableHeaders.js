@@ -1,3 +1,25 @@
+export const shopHeaders = [
+  {
+    text: 'Name',
+    align: 'start',
+    value: 'name'
+  },
+  {
+    text: 'Shop Type',
+    align: 'start',
+    value: 'shop_type.name'
+  },
+  {
+    text: 'City',
+    align: 'start',
+    value: 'city.name'
+  },
+  {
+    text: 'Township',
+    align: 'start',
+    value: 'township.name'
+  }
+]
 export const branchHeaders = [
   {
     text: 'Name',
@@ -5,7 +27,7 @@ export const branchHeaders = [
     value: 'name'
   },
   {
-    text: 'CIty',
+    text: 'City',
     align: 'start',
     value: 'city.name'
   },
