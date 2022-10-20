@@ -36,7 +36,9 @@ export const branchHeaders = [
     text: 'Township',
     align: 'start',
     value: 'township.name'
-  }
+  },
+  { text: 'Actions', value: 'actions', sortable: false }
+
 ]
 export const cityHeaders = [
   {

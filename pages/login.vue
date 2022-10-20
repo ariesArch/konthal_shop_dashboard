@@ -40,6 +40,7 @@
   </div>
 </template>
 <script>
+import localforage from 'localforage'
 export default {
   auth: 'guest',
   data: () => ({
@@ -48,10 +49,6 @@ export default {
     isSubmitting: false,
     showPassword: false
   }),
-  mounted () {
-    // this.$axios.$get('/sanctum/csrf-cookie')
-    console.log(this.$auth.strategy.token)
-  },
   methods: {
     loginTest () {
       console.log('Red')
@@ -74,8 +71,15 @@ export default {
         //   })
         // }
         await this.$auth.loginWith('local', { data: payload })
+        const { data, status } = (await this.$axios.get('/initial_fetch')).data
+        if (status === 1) {
+          localforage.setItem('stored:regions', data.regions)
+          localforage.setItem('stored:cities', data.cities)
+          localforage.setItem('stored:townships', data.townships)
+          localforage.setItem('stored:shop_types', data.shop_types)
+        }
         this.$router.push({
-          name: 'management-branches'
+          name: 'index'
         })
       } catch (err) {
         console.log(err)
