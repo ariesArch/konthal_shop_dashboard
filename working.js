@@ -86,35 +86,23 @@ export default {
   },
   auth: {
     strategies: {
-      local: {
-        // scheme: 'refrsesh',
-        // token: {
-        //   property: 'access_token',
-        //   // maxAge: 1800,
-        //   name: 'Authorization',
-        //   type: 'Bearer', // or just leave as empty there is no Bearer attached to your token
-        //   global: true
-        // },
-        // refreshToken: {
-        //   property: 'refresh_token',
-        //   data: 'refresh_token',
-        //   maxAge: 60 * 80 * 24
-        // },
+      laravelSanctum: {
+        provider: 'laravel/sanctum',
         url: process.env.BASE_URL,
-        user: {
-          headers: { Referer: process.env.API_URL },
-          property: 'data'
-          // autoFetch: true
-        },
         endpoints: {
           login: {
-            url: 'auth/login', method: 'POST'
+            url: '/api/shop/v1/auth/login', method: 'POST'
           },
           user: {
-            url: '/user',
-            method: 'GET',
-            propertyName: ''
+            headers: { Referer: process.env.API_URL },
+            url: '/api/shop/v1/user'
           }
+        },
+        redirect: {
+          login: '/login',
+          logout: '/',
+          callback: '/login',
+          home: '/api/shop/v1/user'
         }
       }
     }

@@ -23,6 +23,7 @@ import { branchHeaders } from '@/utils/tableHeaders'
 export default {
   components: { createButton },
   layout: 'dashboard',
+  // middleware: 'auth',
   data: () => ({
     branches: [],
     search: '',
