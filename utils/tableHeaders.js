@@ -18,7 +18,8 @@ export const shopHeaders = [
     text: 'Township',
     align: 'start',
     value: 'township.name'
-  }
+  },
+  { text: 'Actions', value: 'actions', sortable: false }
 ]
 export const branchHeaders = [
   {

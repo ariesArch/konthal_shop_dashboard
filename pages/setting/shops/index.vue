@@ -14,6 +14,21 @@
           <createButton to="shops/create" />
         </v-toolbar>
       </template>
+      <template v-slot:[`item.actions`]="{ item }">
+      <v-icon
+        class="mr-2"
+        color="info"
+        @click="$router.push(`/setting/shops/${item.id}`)"
+      >
+        mdi-eye
+      </v-icon>
+      <v-icon
+        color="primary"
+        @click="deleteItem(item)"
+      >
+        mdi-pencil
+      </v-icon>
+    </template>
     </v-data-table>
   </div>
 </template>
