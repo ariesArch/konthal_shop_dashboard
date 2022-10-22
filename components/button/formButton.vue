@@ -14,10 +14,19 @@ export default {
     disabled: {
       type: Boolean,
       default: false
+    },
+    value: {
+      type: Boolean,
+      default: false
     }
   },
   methods: {
     goBack () {
+      if (this.value) {
+        this.$emit('input', !this.value)
+        return
+      }
+      alert(this.value)
       return this.$router.go('-1')
     }
   }

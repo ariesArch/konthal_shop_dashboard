@@ -100,9 +100,9 @@ export default {
         //   data: 'refresh_token',
         //   maxAge: 60 * 80 * 24
         // },
-        url: process.env.BASE_URL,
+        // url: process.env.BASE_URL,
         user: {
-          headers: { Referer: process.env.API_URL },
+          // headers: { Referer: process.env.API_URL },
           property: 'data'
           // autoFetch: true
         },
