@@ -198,7 +198,11 @@
       </v-col>
       <v-col cols>
         <v-card>
-          <v-card-title>Branches</v-card-title>
+          <v-card-title>
+            Branches
+            <v-spacer />
+            <createButton to="shops/create" />
+          </v-card-title>
           <v-card-text>
             <v-data-table :headers="branchHeaders" :items="branches">
               <template #[`item.actions`]="{item}">
@@ -228,10 +232,12 @@
 import localforage from 'localforage'
 import { branchHeaders } from '@/utils/tableHeaders'
 import formButton from '@/components/button/formButton.vue'
+import createButton from '@/components/button/createButton.vue'
 
 export default {
   components: {
-    formButton
+    formButton,
+    createButton
   },
   layout: 'dashboard',
   data: () => ({
@@ -247,16 +253,20 @@ export default {
     isSubmitting: false,
     isFetching: false
   }),
+  // async fetch () {
+  //   this.isFetching = true
+  //   this.shopId = this.$route.params.slug
+  //   const { data, status } = (await this.$axios.get(`/shops/${this.shopId}`)).data
+  //   if (status === 1) {
+  //     this.shopInfo = (({ id, name, name_mm, phone_number, address, description, owner, shop_type, city, township }) => ({ id, name, name_mm, phone_number, address, description, owner, shop_type, city, township }))(data)
+  //     this.branches = data.branches
+  //     this.shopPayload = (({ name, name_mm, phone_number, address, description, owner, shop_type, city, township }) => ({ name, name_mm, phone_number, address, description, owner_id: owner.id, shop_type_id: shop_type.id, city_id: city.id, township_id: township.id }))(data)
+  //     this.isFetching = false
+  //   }
+  // },
   async fetch () {
-    this.isFetching = true
-    this.shopId = this.$route.params.id
-    const { data, status } = (await this.$axios.get(`/shops/${this.shopId}`)).data
-    if (status === 1) {
-      this.shopInfo = (({ id, name, name_mm, phone_number, address, description, owner, shop_type, city, township }) => ({ id, name, name_mm, phone_number, address, description, owner, shop_type, city, township }))(data)
-      this.branches = data.branches
-      this.shopPayload = (({ name, name_mm, phone_number, address, description, owner, shop_type, city, township }) => ({ name, name_mm, phone_number, address, description, owner_id: owner.id, shop_type_id: shop_type.id, city_id: city.id, township_id: township.id }))(data)
-      this.isFetching = false
-    }
+    this.shopId = this.$route.params.slug
+    await this.fetchDetail(this, `/shops/${this.shopId}`)
   },
   async mounted () {
     this.cities = await localforage.getItem('stored:cities')
@@ -264,6 +274,10 @@ export default {
     this.shop_types = await localforage.getItem('stored:shop_types')
   },
   methods: {
+    prepareDetail (detail) {
+      this.shopInfo = (({ id, name, name_mm, phone_number, address, description, owner, shop_type, city, township }) => ({ id, name, name_mm, phone_number, address, description, owner, shop_type, city, township }))(detail)
+      this.branches = detail.branches
+    },
     async updateForm () {
       this.isSubmitting = true
       try {

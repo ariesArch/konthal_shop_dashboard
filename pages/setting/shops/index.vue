@@ -1,6 +1,6 @@
 <template>
   <div class="container-fluid">
-    <v-data-table :headers="shopHeaders" :items="shops">
+    <v-data-table :headers="shopHeaders" :items="list">
       <template #top>
         <v-toolbar flat>
           <v-text-field
@@ -18,15 +18,9 @@
         <v-icon
           class="mr-2"
           color="info"
-          @click="$router.push(`/setting/shops/${item.id}`)"
+          @click="$router.push(`/setting/shops/${item.slug}a`)"
         >
           mdi-eye
-        </v-icon>
-        <v-icon
-          color="primary"
-          @click="deleteItem(item)"
-        >
-          mdi-pencil
         </v-icon>
       </template>
     </v-data-table>
@@ -39,18 +33,22 @@ export default {
   components: { createButton },
   layout: 'dashboard',
   data: () => ({
-    shops: [],
+    list: [],
+    isFetching: false,
     search: '',
     shopHeaders
   }),
+  // async fetch () {
+  //   console.log((await this.$axios.get('/shops')))
+  //   const { data, status, message } = (await this.$axios.get('/shops')).data
+  //   if (status === 1) {
+  //     this.shops = data
+  //   } else {
+  //     console.log(message)
+  //   }
+  // }
   async fetch () {
-    console.log((await this.$axios.get('/shops')))
-    const { data, status, message } = (await this.$axios.get('/shops')).data
-    if (status === 1) {
-      this.shops = data
-    } else {
-      console.log(message)
-    }
+    await this.fetchList(this, '/shops')
   }
 }
 </script>
