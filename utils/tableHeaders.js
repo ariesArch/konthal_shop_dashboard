@@ -28,6 +28,16 @@ export const branchHeaders = [
     value: 'name'
   },
   {
+    text: 'Phone',
+    align: 'start',
+    value: 'phone_number'
+  },
+  {
+    text: 'Address',
+    align: 'start',
+    value: 'address'
+  },
+  {
     text: 'City',
     align: 'start',
     value: 'city.name'

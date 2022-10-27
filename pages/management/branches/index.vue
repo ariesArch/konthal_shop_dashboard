@@ -30,7 +30,7 @@ export default {
     branchHeaders
   }),
   async fetch () {
-    console.log((await this.$axios.get('/branches')))
+    console.log(this.$axios.defaults)
     const { data, status, message } = (await this.$axios.get('/branches')).data
     if (status === 1) {
       this.branches = data
