@@ -31,7 +31,7 @@ Vue.mixin({
       try {
         const { data, status } = await that.$axios.get(URL)
         if (status === 200 && data.status === 1) {
-          that.prepareDetail(data)
+          that.prepareDetail(data.data)
           that.isFetching = false
         } else if (status === 401) {
           console.log('Auth Error')

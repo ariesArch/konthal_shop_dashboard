@@ -18,7 +18,7 @@
         <v-icon
           class="mr-2"
           color="info"
-          @click="$router.push(`/setting/shops/${item.slug}a`)"
+          @click="$router.push(`/setting/shops/${item.slug}`)"
         >
           mdi-eye
         </v-icon>
