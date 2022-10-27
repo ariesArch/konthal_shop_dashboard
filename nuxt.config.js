@@ -31,7 +31,8 @@ export default {
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
     '@/plugins/vee-validate',
-    '@/plugins/core'
+    '@/plugins/core',
+    '@/plugins/api'
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -55,7 +56,6 @@ export default {
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
     // Workaround to avoid enforcing hard-coded localhost:3000: https://github.com/nuxt-community/axios-module/issues/308
-    baseURL: process.env.API_URL,
     credentials: true
     // proxy: true
 
@@ -88,24 +88,9 @@ export default {
   auth: {
     strategies: {
       local: {
-        // scheme: 'refrsesh',
-        // token: {
-        //   property: 'access_token',
-        //   // maxAge: 1800,
-        //   name: 'Authorization',
-        //   type: 'Bearer', // or just leave as empty there is no Bearer attached to your token
-        //   global: true
-        // },
-        // refreshToken: {
-        //   property: 'refresh_token',
-        //   data: 'refresh_token',
-        //   maxAge: 60 * 80 * 24
-        // },
         // url: process.env.BASE_URL,
         user: {
-          // headers: { Referer: process.env.API_URL },
           property: 'data'
-          // autoFetch: true
         },
         endpoints: {
           login: {
@@ -123,6 +108,9 @@ export default {
   router: {
     middleware: ['auth']
   },
+  serverMiddleware: [
+    { path: '/api-get', handler: '~/middleware/request' }
+  ],
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {

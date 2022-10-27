@@ -27,10 +27,8 @@
   </div>
 </template>
 <script>
-import createButton from '@/components/button/createButton.vue'
 import { shopHeaders } from '@/utils/tableHeaders'
 export default {
-  components: { createButton },
   layout: 'dashboard',
   data: () => ({
     list: [],
@@ -49,6 +47,7 @@ export default {
   // }
   async fetch () {
     await this.fetchList(this, '/shops')
+    // await this.$api.post('/api-get', this.$axios)
   }
 }
 </script>
