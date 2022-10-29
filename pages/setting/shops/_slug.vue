@@ -201,41 +201,42 @@
           <v-card-title>
             Branches
             <v-spacer />
-            <!-- <createDialogButton v-model="selectedItem.isOpenDialog" /> -->
-            <v-btn color="primary" @click="showDialog()">
+            <!-- <createDialogButton v-model="selectedItem.openFormDialog" /> -->
+            <v-btn color="primary" @click="showDialog('create')">
               Create
             </v-btn>
           </v-card-title>
           <v-card-text>
-            <v-data-table :headers="branchHeaders" :items="branches">
+            <v-data-table :headers="branchHeaders" :items="list">
               <template #[`item.actions`]="{item}">
                 <v-icon
                   class="mr-2"
                   color="info"
-                  @click="showDialog(item)"
+                  @click="showDialog('show',item)"
                 >
                   mdi-eye
                 </v-icon>
                 <v-icon
                   color="primary"
-                  @click="showDialog(item)"
+                  @click="showDialog('edit',item)"
                 >
                   mdi-pencil
                 </v-icon>
               </template>
             </v-data-table>
-            <branchForm v-model="selectedItem" :title="dialogTitle" :cities="cities" :townships="townships" />
           </v-card-text>
         </v-card>
       </v-col>
     </v-row>
+    <DetailDialog v-model="openDetailDialog" :item="selectedItem" title="Branch" />
+    <branchForm v-model="openFormDialog" :title="dialogTitle" :cities="cities" :townships="townships" />
   </div>
   </div>
 </template>
 <script>
 import localforage from 'localforage'
 import { branchHeaders } from '@/utils/tableHeaders'
-import branchForm from '@/components/dialog/branchForm.vue'
+import branchForm from '@/components/FormDialog/branchForm'
 export default {
   components: {
     branchForm
@@ -255,26 +256,15 @@ export default {
     shopPayload: {},
     isSubmitting: false,
     isFetching: false,
-    selectedItem: {
-      isOpenDialog: false
-    },
+    selectedItem: {},
+    openFormDialog: false,
+    openDetailDialog: false,
     dialogTitle: 'Create Branch'
   }),
-  // async fetch () {
-  //   this.isFetching = true
-  //   this.shopId = this.$route.params.slug
-  //   const { data, status } = (await this.$axios.get(`/shops/${this.shopId}`)).data
-  //   if (status === 1) {
-  //     this.shopInfo = (({ id, name, name_mm, phone_number, address, description, owner, shop_type, city, township }) => ({ id, name, name_mm, phone_number, address, description, owner, shop_type, city, township }))(data)
-  //     this.branches = data.branches
-  //     this.shopPayload = (({ name, name_mm, phone_number, address, description, owner, shop_type, city, township }) => ({ name, name_mm, phone_number, address, description, owner_id: owner.id, shop_type_id: shop_type.id, city_id: city.id, township_id: township.id }))(data)
-  //     this.isFetching = false
-  //   }
-  // },
   watch: {
     detail (newVal, oldVal) {
       this.shopInfo = (({ id, name, name_mm, phone_number, address, description, owner, shop_type, city, township }) => ({ id, name, name_mm, phone_number, address, description, owner, shop_type, city, township }))(newVal)
-      this.branches = newVal.branches
+      this.list = newVal.branches
       this.shopPayload = (({ name, name_mm, phone_number, address, description, owner, shop_type, city, township }) => ({ name, name_mm, phone_number, address, description, owner_id: owner.id, shop_type_id: shop_type.id, city_id: city.id, township_id: township.id }))(newVal)
     }
   },
@@ -286,20 +276,8 @@ export default {
     this.cities = await localforage.getItem('stored:cities')
     this.townships = await localforage.getItem('stored:townships')
     this.shop_types = await localforage.getItem('stored:shop_types')
-    this.$on('updatedItem', (result) => {
-      console.log(result)
-      const foundIndex = this.branches.findIndex(branch => branch.id === result.id)
-      this.branches.splice(foundIndex, 1, result)
-    })
-    this.$on('createdItem', (result) => {
-      this.branches.push(result)
-    })
   },
   methods: {
-    prepareDetail (detail) {
-      this.shopInfo = (({ id, name, name_mm, phone_number, address, description, owner, shop_type, city, township }) => ({ id, name, name_mm, phone_number, address, description, owner, shop_type, city, township }))(detail)
-      this.branches = detail.branches
-    },
     async updateForm () {
       this.isSubmitting = true
       try {
@@ -318,16 +296,22 @@ export default {
       }
       this.isSubmitting = false
     },
-    showDialog (item = null) {
-      if (item !== null) {
-        this.selectedItem = (({ id, name, name_mm, city, township, phone_number, address, description }) => ({ id, name, name_mm, city_id: city.id, township_id: township.id, phone_number, address, description }))(item)
-        this.dialogTitle = 'Edit Branch'
+    showDialog (type, item = null) {
+      if (type === 'show') {
+        this.selectedItem = (({ id, name, name_mm, city, township, phone_number, address, description }) => ({ id, name, name_mm, city_name: city.name, township_name: township.name, phone_number, address, description }))(item)
+        this.openDetailDialog = true
       } else {
-        this.dialogTitle = 'Create Branch'
+        if (item !== null) {
+          this.selectedItem = (({ id, name, name_mm, city, township, phone_number, address, description }) => ({ id, name, name_mm, city_id: city.id, township_id: township.id, phone_number, address, description }))(item)
+          this.dialogTitle = 'Edit Branch'
+        } else {
+          this.dialogTitle = 'Create Branch'
+        }
+        this.selectedItem.shop_id = this.shopInfo.id
+        this.selectedItem.shop_type_id = this.shopInfo.shop_type.id
+        this.$emit('openFormDialog', this.selectedItem)
+        this.openFormDialog = true
       }
-      this.selectedItem.shop_id = this.shopInfo.id
-      this.selectedItem.shop_type_id = this.shopInfo.shop_type.id
-      this.selectedItem.isOpenDialog = !this.selectedItem.isOpenDialog
     }
   }
 }

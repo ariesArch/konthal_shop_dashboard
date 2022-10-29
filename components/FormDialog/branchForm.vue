@@ -1,19 +1,13 @@
 <template>
   <div class="text-center">
-    <!-- <v-btn
-      color="primary lighten-2"
-      dark
-      @click="model.isOpenDialog=true"
-    >
-      Click Me
-    </v-btn> -->
     <v-dialog
-      v-model="model.isOpenDialog"
+      v-model="isOpenForm"
       width="800"
+      persistent
     >
       <v-card>
         <v-card-title>
-          {{ title }}
+          {{ title }} - {{ model.name }}
         </v-card-title>
 
         <v-form @submit.prevent="submitForm">
@@ -69,7 +63,7 @@
               <v-btn
                 color="primary"
                 outlined
-                @click="$emit('input', { isOpenDialog: false })"
+                @click="$emit('input',false)"
               >
                 Cancel
               </v-btn>
@@ -93,10 +87,8 @@
 export default {
   props: {
     value: {
-      type: Object,
-      default: () => ({
-        isOpenDialog: false
-      })
+      type: Boolean,
+      default: false
     },
     title: {
       type: String,
@@ -112,17 +104,13 @@ export default {
     }
   },
   data: () => ({
-    isSubmitting: false
+    isSubmitting: false,
+    model: {}
   }),
-  computed: {
-    model: {
-      get () {
-        return this.value
-      },
-      set (value) {
-        return this.$emit('input', { ...this.value, isOpenDialog: value })
-      }
-    }
+  mounted () {
+    this.$parent.$on('openFormDialog', (item) => {
+      this.model = item
+    })
   },
   methods: {
     async submitForm () {
