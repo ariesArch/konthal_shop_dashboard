@@ -26,7 +26,6 @@ export default {
         this.$emit('input', !this.value)
         return
       }
-      alert(this.value)
       return this.$router.go('-1')
     }
   }

@@ -1,8 +1,40 @@
 import Vue from 'vue'
 import formButton from '@/components/button/formButton.vue'
 import createButton from '@/components/button/createButton.vue'
-
+import { getIcon, getLabel } from '@/utils/localize'
+import DetailDialog from '@/components/DetailDialog'
 Vue.mixin({
+  computed: {
+    isOpenForm: {
+      get () {
+        return this.value
+      },
+      set (value) {
+        return this.$emit('input', { ...this.value, value })
+      }
+    },
+    isOpenDetail: {
+      get () {
+        return this.value
+      },
+      set (value) {
+        return this.$emit('input', value)
+      }
+    }
+
+  },
+  mounted () {
+    this.$on('updatedItem', (result) => {
+      const foundIndex = this.list.findIndex(value => value.id === result.id)
+      this.list.splice(foundIndex, 1, result)
+    })
+    this.$on('createdItem', (result) => {
+      this.list.push(result)
+    })
+    this.$on('openFormDialog', (item) => {
+      this.model = item
+    })
+  },
   methods: {
     async fetchList (that, URL) {
     //   return that.$axios.get(URL)
@@ -56,15 +88,15 @@ Vue.mixin({
       }
       try {
         const url = payload.id ? `${URL}/${payload.id}` : `${URL}`
-        delete payload.isOpenDialog
+        delete payload.openFormDialog
         const { data, status } = payload.id ? (await that.$axios.put(url, payload)).data : (await that.$axios.post(url, payload)).data
         if (status === 1) {
           that.model = {}
           that.isSubmitting = false
           if (payload.id) {
-            that.$parent.$parent.$emit('updatedItem', data)
+            that.$parent.$emit('updatedItem', data)
           } else {
-            that.$parent.$parent.$emit('createdItem', data)
+            that.$parent.$emit('createdItem', data)
           }
         } else if (status === 3) {
           console.log('Auth Error')
@@ -79,7 +111,13 @@ Vue.mixin({
       this.closeDialog(that)
     },
     closeDialog (that) {
-      that.$emit('input', { isOpenDialog: false })
+      that.$emit('input', false)
+    },
+    getItemIcon (key) {
+      return getIcon(key)
+    },
+    getItemLabel (key) {
+      return getLabel(key)
     }
   }
 
@@ -87,3 +125,4 @@ Vue.mixin({
 
 Vue.component('FormButton', formButton)
 Vue.component('CreateButton', createButton)
+Vue.component('DetailDialog', DetailDialog)
