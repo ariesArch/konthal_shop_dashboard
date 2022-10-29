@@ -57,3 +57,23 @@ export const cityHeaders = [
     value: 'name'
   }
 ]
+
+export const categoryHeaders = [
+  {
+    text: 'Name',
+    align: 'start',
+    value: 'name'
+  },
+  {
+    text: 'Name_MM',
+    align: 'start',
+    value: 'name_mm'
+  },
+  {
+    text: 'Detail',
+    align: 'start',
+    value: 'detail'
+  },
+  { text: 'Actions', value: 'actions', sortable: false }
+
+]
