@@ -6,7 +6,7 @@ const data = {
   },
   name_mm: {
     en: 'Name MM',
-    mm: 'အမည်',
+    mm: 'မြန်မာအမည်',
     icon: 'mdi-account'
   },
   branch_name: {
@@ -27,6 +27,10 @@ const data = {
   description: {
     en: 'Description',
     mm: 'ဖော်ပြချက်'
+  },
+  detail: {
+    en: 'Deatil',
+    mm: 'အသေးစိတ်'
   }
 }
 // export default (key) => {
