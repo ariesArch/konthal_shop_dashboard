@@ -24,11 +24,12 @@ Vue.mixin({
 
   },
   mounted () {
-    this.$on('updatedItem', (result) => {
-      const foundIndex = this.list.findIndex(value => value.id === result.id)
-      this.list.splice(foundIndex, 1, result)
+    this.$on('updatedItem', (result, intendedList) => {
+      const list = intendedList || this.list
+      const foundIndex = list.findIndex(value => value.id === result.id)
+      list.splice(foundIndex, 1, result)
     })
-    this.$on('createdItem', (result) => {
+    this.$on('createdItem', (result, intendedList) => {
       this.list.push(result)
     })
     this.$on('openFormDialog', (item) => {
@@ -79,7 +80,7 @@ Vue.mixin({
       }
       that.isFetching = false
     },
-    async postDialogData (that, URL, payload) {
+    async postDialogData (that, URL, payload, intendedList = null) {
       that.isSubmitting = true
       const isErrorFree = await that.$refs.observer.validate()
       if (!isErrorFree) {
@@ -94,9 +95,9 @@ Vue.mixin({
           that.model = {}
           that.isSubmitting = false
           if (payload.id) {
-            that.$parent.$emit('updatedItem', data)
+            that.$parent.$emit('updatedItem', data, intendedList)
           } else {
-            that.$parent.$emit('createdItem', data)
+            that.$parent.$emit('createdItem', data, intendedList)
           }
         } else if (status === 3) {
           console.log('Auth Error')
@@ -111,6 +112,8 @@ Vue.mixin({
       this.closeDialog(that)
     },
     closeDialog (that) {
+      that.model = {}
+      that.$parent.selectedItem = {}
       that.$emit('input', false)
     },
     getItemIcon (key) {

@@ -57,8 +57,7 @@ export const cityHeaders = [
     value: 'name'
   }
 ]
-
-export const categoryHeaders = [
+export const categoryHeader = [
   {
     text: 'Name',
     align: 'start',
@@ -68,12 +67,5 @@ export const categoryHeaders = [
     text: 'Name_MM',
     align: 'start',
     value: 'name_mm'
-  },
-  {
-    text: 'Detail',
-    align: 'start',
-    value: 'detail'
-  },
-  { text: 'Actions', value: 'actions', sortable: false }
-
+  }
 ]

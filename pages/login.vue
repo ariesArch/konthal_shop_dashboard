@@ -77,6 +77,8 @@ export default {
           localforage.setItem('stored:cities', data.cities)
           localforage.setItem('stored:townships', data.townships)
           localforage.setItem('stored:shop_types', data.shop_types)
+          localforage.setItem('stored:main_categories', data.main_categories)
+          localforage.setItem('stored:product_categories', data.product_categories)
         }
         this.$router.push({
           name: 'index'
