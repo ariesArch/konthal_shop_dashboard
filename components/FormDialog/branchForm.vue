@@ -63,7 +63,7 @@
               <v-btn
                 color="primary"
                 outlined
-                @click="$emit('input',false)"
+                @click="cancelDialog"
               >
                 Cancel
               </v-btn>
@@ -77,8 +77,6 @@
             </v-card-actions>
           </validation-observer>
         </v-form>
-
-        <v-divider />
       </v-card>
     </v-dialog>
   </div>
@@ -108,13 +106,16 @@ export default {
     model: {}
   }),
   mounted () {
-    this.$parent.$on('openFormDialog', (item) => {
+    this.$parent.$on('openBranchForm', (item) => {
       this.model = item
     })
   },
   methods: {
     async submitForm () {
       await this.postDialogData(this, 'branches', this.model)
+    },
+    async cancelDialog () {
+      return await this.closeDialog(this)
     }
   }
 }
