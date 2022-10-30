@@ -92,3 +92,15 @@ export const cityHeaders = [
     value: 'name'
   }
 ]
+export const categoryHeader = [
+  {
+    text: 'Name',
+    align: 'start',
+    value: 'name'
+  },
+  {
+    text: 'MainCategory',
+    align: 'start',
+    value: 'main_category.name'
+  }
+]

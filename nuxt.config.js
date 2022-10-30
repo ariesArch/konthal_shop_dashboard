@@ -96,6 +96,9 @@ export default {
           login: {
             url: 'auth/login', method: 'POST'
           },
+          logout: {
+            url: 'auth/logout', method: 'GET'
+          },
           user: {
             url: '/user',
             method: 'GET',

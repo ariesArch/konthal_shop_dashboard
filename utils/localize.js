@@ -20,8 +20,8 @@ const data = {
     icon: 'mdi-city'
   },
   township_name: {
-    en: 'City Name',
-    mm: 'မြို့အမည်',
+    en: 'Township Name',
+    mm: 'မြို့နယ်အမည်',
     icon: 'mdi-city'
   },
   description: {
