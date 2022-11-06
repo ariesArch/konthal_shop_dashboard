@@ -242,7 +242,6 @@
     <branchForm v-model="openBranchForm" :title="dialogTitle" :cities="cities" :townships="townships" />
     <categoryForm v-model="openCategoryForm" :title="dialogTitle" :main-categories="main_categories" />
   </div>
-  </div>
 </template>
 <script>
 import localforage from 'localforage'

@@ -1,5 +1,20 @@
 <template>
   <div class="container-fluid">
+    <!-- <ListTable
+      :items="list"
+      :headers="providerHeaders"
+      title="Provider"
+      @toggleCreateDialog="showCreateDialog"
+      @toggleDetailDialog="showDetailDialog"
+      @toggleEditDialog="showEditDialog"
+    />
+    <providerForm
+      v-model="openProviderForm"
+      :title="dialogTitle"
+      :cities="cities"
+      :townships="townships"
+    />
+    <DetailDialog v-model="openDetailDialog" :item="selectedItem" title="Provider" /> -->
     <v-data-table :headers="providerHeaders" :items="list">
       <template #top>
         <v-toolbar flat>
@@ -11,81 +26,92 @@
           />
           <v-divider vertical inset />
           <v-spacer />
-          <!-- <createButton to="providers/create" /> -->
-          <v-btn color="primary" @click="showDialog('create')">
-            Create
-          </v-btn>
+          <createButton to="providers/create" />
         </v-toolbar>
       </template>
       <template #[`item.actions`]="{ item }">
         <v-icon
           class="mr-2"
           color="info"
-          @click="showDialog('show',item)"
+          @click="$router.push(`/management/providers/${item.id}`)"
         >
           mdi-eye
         </v-icon>
-        <v-icon
-          class="mr-2"
-          color="primary"
-          @click="showDialog('edit',item)"
-        >
-          mdi-pencil
-        </v-icon>
       </template>
     </v-data-table>
-    <providerForm
-      v-model="openFormDialog"
-      :title="dialogTitle"
-      :cities="cities"
-      :townships="townships"
-    />
-    <DetailDialog v-model="openDetailDialog" :item="selectedItem" title="Provider" />
   </div>
 </template>
 <script>
-import localforage from 'localforage'
 import { providerHeaders } from '@/utils/tableHeaders'
-import providerForm from '@/components/FormDialog/providerForm'
 export default {
-  components: { providerForm },
   layout: 'dashboard',
   data: () => ({
-    cities: [],
-    townships: [],
     list: [],
+    isFetching: false,
     search: '',
-    selectedItem: {
-
-    },
-    dialogTitle: '',
-    openDetailDialog: '',
-    openFormDialog: '',
     providerHeaders
   }),
   async fetch () {
     await this.fetchList(this, '/providers')
-  },
-  async mounted () {
-    this.cities = await localforage.getItem('stored:cities')
-    this.townships = await localforage.getItem('stored:townships')
-  },
-  methods: {
-    showDialog (type, item = null) {
-      if (type === 'show') {
-        this.selectedItem = (({ name, name_mm, city, township }) => ({ name, name_mm, city_name: city.name, township_name: township.name }))(item)
-        this.openDetailDialog = !this.openDetailDialog
-      } else {
-        if (item !== null) {
-          this.selectedItem = (({ id, name, name_mm, city, township, phone, address, email }) => ({ id, name, name_mm, city_id: city.id, township_id: township.id, phone, address, email }))(item)
-          this.dialogTitle = 'Edit Provider'
-        } else {
-          this.dialogTitle = 'Create Provider'
-        }
-        this.$emit('openFormDialog', this.selectedItem)
-        this.openFormDialog = true
-      }
-    }
   }
 }
+// import localforage from 'localforage'
+// import { providerHeaders } from '@/utils/tableHeaders'
+// import providerForm from '@/components/FormDialog/providerForm'
+// import ListTable from '@/components/ListTable/index'
+// export default {
+//   components: { providerForm, ListTable },
+//   layout: 'dashboard',
+//   data: () => ({
+//     cities: [],
+//     townships: [],
+//     list: [],
+//     search: '',
+//     providerHeaders,
+//     selectedItem: {},
+//     dialogTitle: '',
+//     openProviderForm: false,
+//     openDetailDialog: false
+
+//   }),
+//   async fetch () {
+//     await this.fetchList(this, '/providers')
+//   },
+//   async mounted () {
+//     this.cities = await localforage.getItem('stored:cities')
+//     this.townships = await localforage.getItem('stored:townships')
+//   },
+//   methods: {
+//     showCreateDialog () {
+//       this.openProviderForm = true
+//       this.dialogTitle = 'Create Provider'
+//     },
+//     showDetailDialog (title, item) {
+//       this.selectedItem = (({ name, city, township, phone, address, email }) => ({ name, city_name: city.name, township_name: township.name, phone, address, email }))(item)
+//       this.dialogTitle = 'Provider'
+//       this.openDetailDialog = true
+//     },
+//     showEditDialog (title, item) {
+//       this.selectedItem = (({ id, name, city, township, phone, address, email }) => ({ id, name, city_id: city.id, township_id: township.id, phone, address, email }))(item)
+//       this.$emit('openProviderForm', this.selectedItem)
+//       this.openProviderForm = true
+//       this.dialogTitle = 'Edit Provider'
+//     },
+//     showDialog (type, item = null) {
+//       if (type === 'show') {
+//         this.selectedItem = (({ name, name_mm, city, township }) => ({ name, name_mm, city_name: city.name, township_name: township.name }))(item)
+//         this.openDetailDialog = !this.openDetailDialog
+//       } else {
+//         if (item !== null) {
+//           this.selectedItem = (({ id, name, city, township, phone, address, email }) => ({ id, name, city_id: city.id, township_id: township.id, phone, address, email }))(item)
+//           this.dialogTitle = 'Edit Provider'
+//         } else {
+//           this.dialogTitle = 'Create Provider'
+//         }
+//         this.$emit('openFormDialog', this.selectedItem)
+//         this.openFormDialog = true
+//       }
+//     }
+//   }
+// }
 </script>

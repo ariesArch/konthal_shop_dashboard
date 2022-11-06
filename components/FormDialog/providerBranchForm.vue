@@ -105,13 +105,13 @@ export default {
     model: {}
   }),
   mounted () {
-    this.$parent.$on('openProviderForm', (item) => {
+    this.$parent.$on('openProviderBranchForm', (item) => {
       this.model = item
     })
   },
   methods: {
     async submitForm () {
-      await this.postDialogData(this, 'providers', this.model)
+      await this.postDialogData(this, 'provider_branches', this.model)
     },
     async cancelDialog () {
       return await this.closeDialog(this)
