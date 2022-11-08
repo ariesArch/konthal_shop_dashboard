@@ -64,8 +64,10 @@ export const categoryHeader = [
     value: 'name'
   },
   {
-    text: 'MainCategory',
+    text: 'Name_MM',
     align: 'start',
-    value: 'main_category.name'
-  }
+    value: 'name_mm'
+  },
+  { text: 'Actions', value: 'actions', sortable: false }
+
 ]

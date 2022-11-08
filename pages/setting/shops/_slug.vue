@@ -235,13 +235,19 @@
         />
       </v-col>
       <v-col md="6">
-        <ListTable :items="list" :headers="categoryHeader" title="Categories" @toggleCreateDialog="showCreateDialog" />
+        <ListTable
+          :items="categorie"
+          :headers="categoryHeader"
+          title="Categories"
+          @toggleCreateDialog="showCreateDialog"
+          @toggleDetailDialog="showDetailDialog"
+          @toggleEditDialog="showEditDialog"
+        />
       </v-col>
     </v-row>
     <DetailDialog v-model="openDetailDialog" :item="selectedItem" title="Branch" />
     <branchForm v-model="openBranchForm" :title="dialogTitle" :cities="cities" :townships="townships" />
     <categoryForm v-model="openCategoryForm" :title="dialogTitle" :main-categories="main_categories" />
-  </div>
   </div>
 </template>
 <script>
@@ -285,7 +291,7 @@ export default {
     detail (newVal, oldVal) {
       this.shopInfo = (({ id, name, name_mm, phone_number, address, description, owner, shop_type, city, township }) => ({ id, name, name_mm, phone_number, address, description, owner, shop_type, city, township }))(newVal)
       this.list = newVal.branches
-      this.categories = newVal.categories
+      this.categorie = newVal.categories
       this.shopPayload = (({ name, name_mm, phone_number, address, description, owner, shop_type, city, township }) => ({ name, name_mm, phone_number, address, description, owner_id: owner.id, shop_type_id: shop_type.id, city_id: city.id, township_id: township.id }))(newVal)
     }
   },
@@ -321,6 +327,8 @@ export default {
     },
     showCreateDialog (title) {
       if (title === 'Branches') {
+        this.selectedItem.shop_id = this.shopInfo.id
+        this.$emit('openBranchForm', this.selectedItem)
         this.openBranchForm = true
         this.dialogTitle = 'Create Branch'
       } else {
@@ -335,6 +343,7 @@ export default {
         this.selectedItem = (({ name, name_mm, city, township, phone_number, address, description }) => ({ name, name_mm, city_name: city.name, township_name: township.name, phone_number, address, description }))(item)
         this.dialogTitle = 'Branch'
       } else {
+        this.selectedItem = (({ name, name_mm }) => ({ name, name_mm }))(item)
         this.dialogTitle = 'Category'
       }
       this.openDetailDialog = true
@@ -348,6 +357,9 @@ export default {
         this.openBranchForm = true
         this.dialogTitle = 'Edit Branch'
       } else {
+        this.selectedItem = (({ id, name, name_mm }) => ({ id, name, name_mm }))(item)
+        this.selectedItem.shop_id = this.shopInfo.id
+        this.$emit('openCategoryForm', this.selectedItem, this.product_categories)
         this.openCategoryForm = true
         this.dialogTitle = 'Edit Category'
       }
