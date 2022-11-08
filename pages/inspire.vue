@@ -32,6 +32,7 @@
 <script>
 export default {
   layout: 'dashboard',
+  auth: 'guest',
   data: () => ({
     cities: [],
     search: '',
