@@ -131,17 +131,3 @@ export const cityHeaders = [
     value: 'name'
   }
 ]
-export const categoryHeader = [
-  {
-    text: 'Name',
-    align: 'start',
-    value: 'name'
-  },
-  {
-    text: 'Name_MM',
-    align: 'start',
-    value: 'name_mm'
-  },
-  { text: 'Actions', value: 'actions', sortable: false }
-
-]

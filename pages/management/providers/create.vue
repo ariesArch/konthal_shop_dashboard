@@ -3,7 +3,7 @@
     <div class="row">
       <div class="col-md-8">
         <v-card>
-          <v-card-title>Create Provider</v-card-title>
+          <v-card-title>Create Branch</v-card-title>
           <v-form @submit.prevent="onSubmit">
             <validation-observer ref="observer">
               <v-card-text>
@@ -32,14 +32,14 @@
                     <validation-provider v-slot="{errors}" rules="required" name="Name">
                       <v-text-field v-model="form.name" outlined label="Name" :error-messages="errors" />
                     </validation-provider>
-                    <validation-provider v-slot="{errors}" rules="required" name=" Email">
-                      <v-text-field v-model="form.email" outlined label="Email" :error-messages="errors" />
+                    <validation-provider v-slot="{errors}" rules="required" name="Phone">
+                      <v-text-field v-model="form.phone" outlined label="Phone" :error-messages="errors" />
                     </validation-provider>
                   </div>
                   <v-divider inset vertical />
                   <div class="col-md-6">
-                    <validation-provider v-slot="{errors}" rules="required" name="Phone">
-                      <v-text-field v-model="form.phone" type="number" outlined label="Phone" :error-messages="errors" />
+                    <validation-provider v-slot="{errors}" rules="required" name="Email">
+                      <v-text-field v-model="form.email" type="number" outlined label="Email" :error-messages="errors" />
                     </validation-provider>
                     <validation-provider v-slot="{errors}" rules="required" name="Address">
                       <v-textarea v-model="form.address" outlined label="Address" :error-messages="errors" />
@@ -66,14 +66,15 @@ export default {
   },
   layout: 'dashboard',
   data: () => ({
+    regions: [],
     cities: [],
     townships: [],
     form: {
       city_id: '',
       township_id: '',
       name: '',
-      email: '',
       phone: '',
+      email: '',
       address: ''
     },
     isSubmitting: false

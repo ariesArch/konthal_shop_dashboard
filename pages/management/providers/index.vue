@@ -29,30 +29,28 @@
           <createButton to="providers/create" />
         </v-toolbar>
       </template>
-      <template #[`item.actions`]="{ item }">
-        <v-icon
-          class="mr-2"
-          color="info"
-          @click="$router.push(`/management/providers/${item.id}`)"
-        >
-          mdi-eye
-        </v-icon>
-      </template>
     </v-data-table>
   </div>
 </template>
 <script>
+import createButton from '@/components/button/createButton.vue'
 import { providerHeaders } from '@/utils/tableHeaders'
 export default {
+  components: { createButton },
   layout: 'dashboard',
   data: () => ({
-    list: [],
-    isFetching: false,
+    providers: [],
     search: '',
     providerHeaders
   }),
   async fetch () {
-    await this.fetchList(this, '/providers')
+    console.log((await this.$axios.get('/providers')))
+    const { data, status, message } = (await this.$axios.get('/providers')).data
+    if (status === 1) {
+      this.providers = data
+    } else {
+      console.log(message)
+    }
   }
 }
 // import localforage from 'localforage'
