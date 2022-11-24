@@ -30,7 +30,9 @@ export default {
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
-    '@/plugins/vee-validate'
+    '@/plugins/vee-validate',
+    '@/plugins/core',
+    '@/plugins/api'
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -54,8 +56,16 @@ export default {
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
     // Workaround to avoid enforcing hard-coded localhost:3000: https://github.com/nuxt-community/axios-module/issues/308
-    baseURL: process.env.BASE_URL
+    credentials: true
+    // proxy: true
+
   },
+  // proxy: {
+  //   '/api': {
+  //     target: process.env.BASE_URL,
+  //     pathRewrite: { '^/api': '/' }
+  //   }
+  // },
 
   // Vuetify module configuration: https://go.nuxtjs.dev/config-vuetify
   vuetify: {
@@ -77,12 +87,33 @@ export default {
   },
   auth: {
     strategies: {
-      laravelSanctum: {
-        provider: 'laravel/sanctum',
-        url: process.env.BASE_URL
+      local: {
+        // url: process.env.BASE_URL,
+        user: {
+          property: 'data'
+        },
+        endpoints: {
+          login: {
+            url: 'auth/login', method: 'POST'
+          },
+          logout: {
+            url: 'auth/logout', method: 'GET'
+          },
+          user: {
+            url: '/user',
+            method: 'GET',
+            propertyName: ''
+          }
+        }
       }
     }
   },
+  router: {
+    middleware: ['auth']
+  },
+  serverMiddleware: [
+    { path: '/api-get', handler: '~/middleware/request' }
+  ],
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {

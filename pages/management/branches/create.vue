@@ -9,16 +9,6 @@
               <v-card-text>
                 <div class="row">
                   <div class="col-md-6">
-                    <validation-provider v-slot="{errors}" rules="required" name="Region">
-                      <v-autocomplete
-                        v-model="form.region_id"
-                        :items="regions"
-                        item-text="name"
-                        item-value="id"
-                        :error-messages="errors"
-                        label="Region"
-                      />
-                    </validation-provider>
                     <validation-provider v-slot="{errors}" rules="required" name="City">
                       <v-autocomplete
                         v-model="form.city_id"
@@ -76,11 +66,9 @@ export default {
   },
   layout: 'dashboard',
   data: () => ({
-    regions: [],
     cities: [],
     townships: [],
     form: {
-      region_id: '',
       city_id: '',
       township_id: '',
       name: '',
@@ -90,13 +78,10 @@ export default {
     isSubmitting: false
   }),
   async mounted () {
-    const regions = await localforage.getItem('stored:regions')
     const cities = await localforage.getItem('stored:cities')
     const townships = await localforage.getItem('stored:townships')
-    this.regions = regions
     this.cities = cities
     this.townships = townships
-    console.log(regions)
   },
   methods: {
     async onSubmit () {
@@ -104,14 +89,15 @@ export default {
       const isErrorFree = await this.$refs.observer.validate()
       if (!isErrorFree) {
         this.isSubmitting = false
+        return
       }
       //
       const payload = { ...this.form }
       const { status } = (await this.$axios.post('/branches', payload)).data
       if (status === 1) {
-        this.router.push('/management/branches')
+        this.$router.push('/management/branches')
       }
-      // this.isSubmitting = false
+      this.isSubmitting = false
     }
   }
 }

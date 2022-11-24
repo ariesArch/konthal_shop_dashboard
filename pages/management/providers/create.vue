@@ -91,14 +91,15 @@ export default {
       const isErrorFree = await this.$refs.observer.validate()
       if (!isErrorFree) {
         this.isSubmitting = false
+        return
       }
       //
       const payload = { ...this.form }
       const { status } = (await this.$axios.post('/providers', payload)).data
       if (status === 1) {
-        this.router.push('/management/providers')
+        this.$router.push('/management/providers')
       }
-      // this.isSubmitting = false
+      this.isSubmitting = false
     }
   }
 }
