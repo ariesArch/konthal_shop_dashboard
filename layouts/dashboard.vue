@@ -1,7 +1,7 @@
 <template>
   <v-app>
     <v-main>
-      <NavDrawer />
+      <!-- <NavDrawer /> -->
       <v-container fluid>
         <nuxt />
       </v-container>
@@ -9,10 +9,10 @@
   </v-app>
 </template>
 <script>
-import NavDrawer from '@/components/base/NavDrawer.vue'
+// import NavDrawer from '@/components/base/NavDrawer.vue'
 export default {
   components: {
-    NavDrawer
+    // NavDrawer
   }
 }
 </script>

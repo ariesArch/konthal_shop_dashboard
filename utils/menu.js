@@ -7,45 +7,14 @@ const Menu = [
     name: 'Dashboard',
     action: '/'
   },
-  { header: 'Management' },
-  {
-    title: 'Management',
-    group: 'Management',
-    icon: 'mdi-file',
-    items: [
-      { name: 'staffs', title: 'Staffs', action: '/management/staffs', icon: 'mdi-home-city' },
-      { name: 'branches', title: 'Branches', action: '/management/branches', icon: 'mdi-home-city' },
-      { name: 'providers', title: 'Providers', action: '/management/providers', icon: 'mdi-home-city' }
-    ]
-  },
-  { header: 'CRM' },
-  {
-    title: 'CRM',
-    group: 'CRM',
-    icon: 'mdi-account-group',
-    items: [
-      { name: 'customers', title: 'Customers', action: '/crm/customers', icon: 'mdi-account-group' },
-      { name: 'orders', title: 'Orders', action: '/crm/orders', icon: 'mdi-account-group' }
-    ]
-  },
   { header: 'Store' },
   {
     title: 'Store',
     group: 'Store',
     icon: 'mdi-store-cog',
     items: [
-      { name: 'categories', title: 'Categories', action: '/store/categories', icon: 'mdi-store-outline' },
-      { name: 'products', title: 'Products', badge: 'new', action: '/store/products/create', icon: 'mdi-store-plus' }
-    ]
-  },
-  { header: 'Setting' },
-  {
-    title: 'Setting',
-    group: 'Setting',
-    icon: 'mdi-wrench',
-    items: [
-      { name: 'profile', title: 'profile', action: '/setting/profile', icon: 'mdi-account' },
-      { name: 'shops', title: 'shops', badge: 'new', action: '/setting/shops', icon: 'mdi-store-plus' }
+      { name: 'attributes', title: 'Attributes', action: shop => (`/${shop}/attributes`), icon: 'mdi-store-outline' },
+      { name: 'products', title: 'Products', badge: 'new', action: shop => (`/${shop}/products`), icon: 'mdi-store-plus' }
     ]
   }
 ]

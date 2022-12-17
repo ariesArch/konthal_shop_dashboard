@@ -23,7 +23,6 @@
     </v-list>
 
     <v-divider />
-
     <v-list
       nav
       dense
@@ -44,12 +43,11 @@
               <v-list-item-title>{{ item.title }}</v-list-item-title>
             </v-list-item-content>
           </template>
-
           <v-list-item
             v-for="child in item.items"
             :key="child.title"
             dense
-            :to="child.action"
+            :to="child.action($auth.user.current_shop.slug)"
           >
             <v-list-item-icon><v-icon>{{ child.icon }}</v-icon></v-list-item-icon>
             <v-list-item-title>

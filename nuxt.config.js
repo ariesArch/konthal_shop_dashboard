@@ -109,6 +109,7 @@ export default {
     }
   },
   router: {
+    // base: '/:shop/',
     middleware: ['auth']
   },
   serverMiddleware: [

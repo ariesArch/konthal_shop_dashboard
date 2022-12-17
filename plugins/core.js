@@ -3,6 +3,8 @@ import formButton from '@/components/button/formButton.vue'
 import createButton from '@/components/button/createButton.vue'
 import { getIcon, getLabel } from '@/utils/localize'
 import DetailDialog from '@/components/DetailDialog'
+import tableHeaders from '@/utils/tableHeaders'
+Vue.prototype.$tableHeaders = tableHeaders
 Vue.mixin({
   computed: {
     isOpenForm: {
@@ -110,6 +112,24 @@ Vue.mixin({
       }
       that.isSubmitting = false
       this.closeDialog(that)
+    },
+    async validateForm (that, payload) {
+      const isErrorFree = await that.$refs.observer.validate()
+      alert(isErrorFree)
+      if (isErrorFree) {
+        that.$emit('onSubmit', payload)
+      } else {
+        alert('No')
+      }
+      // that.$refs.observer.validate().then((res) => {
+      //   alert(res)
+      //   if (res === true) {
+      //     callback()
+      //   }
+      // })
+    },
+    async createRecord (that, URL, payload) {
+      return (await that.$axios.post(URL, payload)).data
     },
     closeDialog (that) {
       that.model = {}

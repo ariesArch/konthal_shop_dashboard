@@ -20,7 +20,7 @@
           </v-icon>
           <v-icon
             color="primary"
-            @click="switchEditDialog(item)"
+            @click="$router.push(`${title}/${item.id}/edit`)"
           >
             mdi-pencil
           </v-icon>
