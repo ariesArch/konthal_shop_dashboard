@@ -103,6 +103,12 @@
 <script>
 import Attribute from '@/api/model/Attribute'
 export default {
+  props: {
+    rawData: {
+      type: Object,
+      default: () => {}
+    }
+  },
   data: () => ({
     isSubmitting: false,
     attribute: {},
@@ -118,11 +124,13 @@ export default {
   }),
   computed: {
     headers () {
-      return this.$tableHeaders.attributeValueHeaders
+      return this.$tableHeaders.attributeValueTable
     }
   },
   beforeMount () {
-    this.attribute = new Attribute()
+    console.log('HI')
+    console.log(this.rawData)
+    this.attribute = new Attribute(this.rawData)
     this.attribute.shop_id = this.$auth.user.current_shop.id
   },
   methods: {

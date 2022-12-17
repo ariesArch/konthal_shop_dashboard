@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1>I am the second child view</h1>
+    <h1>I am the child view of shop</h1>
     <p>My path is: {{ $route.path }}</p>
     <ListTable :headers="headers" :items="list" title="attributes" />
   </div>
@@ -12,11 +12,11 @@ export default {
     list: []
   }),
   async fetch () {
-    await this.fetchList(this, '/branches')
+    await this.fetchList(this, `/branches?shop_id=${this.$auth.user.current_shop.id}`)
   },
   computed: {
     headers () {
-      return this.$tableHeaders.attributeValueHeaders
+      return this.$tableHeaders.attributeValueTable
     }
   }
 }

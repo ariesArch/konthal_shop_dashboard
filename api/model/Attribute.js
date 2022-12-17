@@ -1,5 +1,5 @@
 
-export default class Event {
+export default class Attribute {
   constructor (
     id = '',
     shop_id = '',

@@ -1,7 +1,6 @@
 <template>
   <div>
-    <h1>{{ $auth.user.current_shop.name }}</h1>
-    {{ $route.pathname }}
+    <h1>Shop-{{ $auth.user.current_shop.name }}</h1>
     <NuxtChild />
   </div>
 </template>

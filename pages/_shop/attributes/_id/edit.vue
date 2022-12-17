@@ -1,6 +1,6 @@
 <template>
   <div>
-    <AttributeForm @onSubmit="createAttribute" />
+    <AttributeForm :raw-data="{id:'1',name:'Yen'}" @onSubmit="createAttribute" />
   </div>
 </template>
 <script>
@@ -9,6 +9,9 @@ export default {
   components: {
     AttributeForm
   },
+  data: () => ({
+    detail: {}
+  }),
   async created () {
     const id = this.$route.params.id
     await this.fetchDetail(this, `/branches/${id}`)

@@ -1,10 +1,10 @@
 <template>
   <v-card>
     <v-card-title>
-      {{ title }}
+      {{ capitalized }}
       <v-spacer />
       <!-- <createDialogButton v-model="selectedItem.openBranchForm" /> -->
-      <v-btn color="primary" @click="switchCreateDialog">
+      <v-btn color="primary" @click="$router.push(`${title}/create`)">
         Create
       </v-btn>
     </v-card-title>
@@ -45,15 +45,17 @@ export default {
       default: ''
     }
   },
+  computed: {
+    capitalized () {
+      const capitalizedFirst = this.title[0].toUpperCase()
+      const rest = this.title.slice(1)
+
+      return capitalizedFirst + rest
+    }
+  },
   methods: {
-    switchCreateDialog () {
-      this.$emit('toggleCreateDialog', this.title)
-    },
     switchDetailDialog (item) {
       this.$emit('toggleDetailDialog', this.title, item)
-    },
-    switchEditDialog (item) {
-      this.$emit('toggleEditDialog', this.title, item)
     }
   }
 }
