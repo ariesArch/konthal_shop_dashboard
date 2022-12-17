@@ -128,9 +128,11 @@ export default {
     }
   },
   beforeMount () {
-    console.log('HI')
-    console.log(this.rawData)
-    this.attribute = new Attribute(this.rawData)
+    if (this.rawData) {
+      this.attribute = this.rawData
+    } else {
+      this.attribute = new Attribute()
+    }
     this.attribute.shop_id = this.$auth.user.current_shop.id
   },
   methods: {
