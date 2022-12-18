@@ -1,6 +1,6 @@
 <template>
   <v-card>
-    <ProductForm @onSubmit="createProduct" />
+    <ProductForm type="edit" @onSubmit="updateProduct" />
   </v-card>
 </template>
 <script>
@@ -10,12 +10,14 @@ export default {
     ProductForm
   },
   data: () => ({
-    product: {},
-    attributes: [],
-    values: []
+    detail: {}
   }),
+  // async created () {
+  //   const id = this.$route.params.id
+  //   await this.fetchDetail(this, `/products/${id}`)
+  // },
   methods: {
-    async createProduct (payload) {
+    async updateProduct (payload) {
       const { data, status } = await this.createRecord(this, 'products', payload)
       console.log(status)
       console.log(data)

@@ -9,7 +9,7 @@
     <v-col md="6">
       <v-card>
         <v-card-text>
-          <v-form @submit.prevent="onSubmit">
+          <v-form @submit.prevent="submitForm">
             <validation-observer ref="observer">
               <validation-provider v-slot="{errors}" rules="required" name="Attribute Name">
                 <v-text-field
@@ -128,8 +128,10 @@ export default {
     }
   },
   beforeMount () {
+    console.log('before')
+    console.log(this.rawData)
     if (this.rawData) {
-      this.attribute = this.rawData
+      this.attribute = new Attribute(this.rawData)
     } else {
       this.attribute = new Attribute()
     }
@@ -166,11 +168,11 @@ export default {
         // this.addObj = {}
       }
     },
-    async onSubmit () {
+    async submitForm () {
       // const isErrorFree = await this.$refs.observer.validate()
       // if (!isErrorFree) {
       //   return false
-      //   // this.$emit('onSubmit', this.attribute)
+      //   // this.$emit('submitForm', this.attribute)
       // }
       // const emptyInput = this.attribute.attribute_values.find(val => val.name === '')
       // if (emptyInput) {

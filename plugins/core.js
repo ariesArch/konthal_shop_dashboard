@@ -82,6 +82,26 @@ Vue.mixin({
       }
       that.isFetching = false
     },
+    async fetchForRequest (that, URL) {
+      that.isFetching = true
+      try {
+        const { data, status } = (await that.$axios.get(URL)).data
+        if (status === 1) {
+          that.isFetching = false
+          return data
+        } else if (status === 3) {
+          console.log('Auth Error')
+          that.$router.push({
+            name: 'login'
+          })
+        } else {
+          that.$router.go(-1)
+        }
+      } catch (error) {
+        console.log('Handlingerror' + error.message)
+      }
+      that.isFetching = false
+    },
     async postDialogData (that, URL, payload, intendedList = null) {
       that.isSubmitting = true
       const isErrorFree = await that.$refs.observer.validate()
