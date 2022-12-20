@@ -151,6 +151,9 @@ Vue.mixin({
     async createRecord (that, URL, payload) {
       return (await that.$axios.post(URL, payload)).data
     },
+    async updateRecord (that, URL, payload) {
+      return (await that.$axios.put(URL, payload)).data
+    },
     closeDialog (that) {
       that.model = {}
       that.$parent.selectedItem = {}

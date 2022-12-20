@@ -18,7 +18,7 @@ export default {
   // },
   methods: {
     async updateAttribute (payload) {
-      const { data, status } = await this.createRecord(this, '/attributes', payload)
+      const { data, status } = await this.updateRecord(this, `/attributes/${payload.id}`, payload)
       alert(status)
       console.log(data)
     }

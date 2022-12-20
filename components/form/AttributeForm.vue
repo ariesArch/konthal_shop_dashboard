@@ -29,7 +29,6 @@
                     <v-btn
                       depressed
                       color="primary"
-                      :disabled="editedValue.id"
                       @click="addNew"
                     >
                       <v-icon dark>
@@ -74,7 +73,7 @@
                     <v-icon color="red" class="mr-3" @click="closeItem(item)">
                       mdi-window-close
                     </v-icon>
-                    <v-icon v-show="editedValue.id" color="info" :disabled="disabledButton" @click="saveItem">
+                    <v-icon v-show="editedValue.id" color="info" :disabled="disabledButton" @click="saveItem(item)">
                       mdi-content-save
                     </v-icon>
                   </div>
@@ -142,10 +141,10 @@ export default {
     if (this.type === 'edit') {
       const id = this.$route.params.id
       data = await this.fetchForRequest(this, `/attributes/${id}/edit`)
-      this.attribute = new Attribute(data.attribute)
+      this.attribute = new Attribute(data)
     } else {
       this.attribute = new Attribute()
-      data = await this.fetchForRequest(this, '/attributes/create')
+      // data = await this.fetchForRequest(this, '/attributes/create')
     }
     this.attribute.shop_id = this.$auth.user.current_shop.id
   },
@@ -192,8 +191,11 @@ export default {
       // }
       await this.validateForm(this, this.attribute)
     },
-    saveItem () {
-      alert('hi')
+    async saveItem (item) {
+      const { status } = await this.updateRecord(this, `/attribute_values/${item.id}`, item)
+      if (status === 1) {
+        this.closeItem()
+      }
     },
     deleteItem (item) {
       alert(item)

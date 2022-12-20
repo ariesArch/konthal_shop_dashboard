@@ -20,10 +20,11 @@ const AttrPayload = {
   id: '',
   shop_id: '',
   name: '',
-  attribute_values: [
-    { id: 1, name: 'Red', meta: '#fff' },
-    { id: 2, name: 'Green', meta: '#fff' }
-  ]
+  attribute_values: []
+  // attribute_values: [
+  //   { id: 1, name: 'Red', meta: '#fff' },
+  //   { id: 2, name: 'Green', meta: '#fff' }
+  // ]
 }
 export default class Attribute {
   constructor (paload = AttrPayload) {
