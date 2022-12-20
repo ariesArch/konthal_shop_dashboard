@@ -104,14 +104,14 @@
 import Attribute from '@/api/model/Attribute'
 export default {
   props: {
-    rawData: {
-      type: Object,
-      default: () => {}
+    type: {
+      type: String,
+      default: 'create'
     }
   },
   data: () => ({
-    isSubmitting: false,
     attribute: {},
+    isSubmitting: false,
     editedIndex: -1,
     // selectedItem: {},
     editedValue: {},
@@ -127,13 +127,25 @@ export default {
       return this.$tableHeaders.attributeValueTable
     }
   },
-  beforeMount () {
-    console.log('before')
-    console.log(this.rawData)
-    if (this.rawData) {
-      this.attribute = new Attribute(this.rawData)
+  // beforeMount () {
+  //   console.log('before')
+  //   console.log(this.rawData)
+  //   if (this.rawData) {
+  //     this.attribute = new Attribute(this.rawData)
+  //   } else {
+  //     this.attribute = new Attribute()
+  //   }
+  //   this.attribute.shop_id = this.$auth.user.current_shop.id
+  // },
+  async created () {
+    let data = {}
+    if (this.type === 'edit') {
+      const id = this.$route.params.id
+      data = await this.fetchForRequest(this, `/attributes/${id}/edit`)
+      this.attribute = new Attribute(data.attribute)
     } else {
       this.attribute = new Attribute()
+      data = await this.fetchForRequest(this, '/attributes/create')
     }
     this.attribute.shop_id = this.$auth.user.current_shop.id
   },

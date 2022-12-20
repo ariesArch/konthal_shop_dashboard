@@ -1,6 +1,6 @@
 <template>
   <div>
-    <AttributeForm :raw-data="{id:'1',name:'Yen'}" @onSubmit="createAttribute" />
+    <AttributeForm type="edit" @onSubmit="updateAttribute" />
   </div>
 </template>
 <script>
@@ -12,13 +12,13 @@ export default {
   data: () => ({
     detail: {}
   }),
-  async created () {
-    const id = this.$route.params.id
-    await this.fetchDetail(this, `/branches/${id}`)
-  },
+  // async created () {
+  //   const id = this.$route.params.id
+  //   await this.fetchDetail(this, `/attributes/${id}`)
+  // },
   methods: {
-    async createAttribute (pyaload) {
-      const { status, data } = await this.createRecord(this, '/attributes', pyaload)
+    async updateAttribute (payload) {
+      const { data, status } = await this.createRecord(this, '/attributes', payload)
       alert(status)
       console.log(data)
     }

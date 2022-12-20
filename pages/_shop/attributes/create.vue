@@ -9,9 +9,12 @@ export default {
   components: {
     AttributeForm
   },
+  data: () => ({
+    attributes: {}
+  }),
   methods: {
-    async createAttribute (pyaload) {
-      const { status, data } = await this.createRecord(this, '/attributes', pyaload)
+    async createAttribute (payload) {
+      const { data, status } = await this.createRecord(this, '/attributes', payload)
       alert(status)
       console.log(data)
     }

@@ -12,11 +12,11 @@ export default {
     list: []
   }),
   async fetch () {
-    await this.fetchList(this, `/branches?shop_id=${this.$auth.user.current_shop.id}`)
+    await this.fetchList(this, `/attributes?shop_id=${this.$auth.user.current_shop.id}`)
   },
   computed: {
     headers () {
-      return this.$tableHeaders.attributeValueTable
+      return this.$tableHeaders.attributeTable
     }
   }
 }
