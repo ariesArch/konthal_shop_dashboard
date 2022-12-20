@@ -7,7 +7,7 @@ const productPayload = {
   main_category_id: '',
   brand_jd: '',
   description: '',
-  categories: [],
+  category_id: '',
   product_attributes: []
 }
 export default class Product {
@@ -20,7 +20,7 @@ export default class Product {
     this.main_category_id = payload.main_category_id
     this.brand_id = payload.brand_id
     this.description = payload.description
-    this.categories = payload.categories
+    this.category_id = payload.category_id
     this.product_attributes = payload.product_attributes
   }
 }

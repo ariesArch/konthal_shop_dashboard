@@ -228,8 +228,8 @@
                       <v-col>
                         <validation-provider v-slot="{errors}" rules="required" name="Attributes">
                           <v-autocomplete
-                            v-model="attributes[0]"
-                            :items="attribute_names"
+                            v-model="product.attribute_id"
+                            :items="attributes"
                             item-text="name"
                             item-value="id"
                             outlined
@@ -239,10 +239,10 @@
                         </validation-provider>
                       </v-col>
                       <v-col>
-                        <validation-provider v-slot="{errors}" rules="required" name="Values">
+                        <validation-provider v-for="attribute in attributes" :key="attribute.id" v-slot="{errors}" rules="required" name="Values">
                           <v-autocomplete
                             v-model="values[0]"
-                            :items="attribute_values"
+                            :items="attribute.attribute_values"
                             item-text="name"
                             item-value="id"
                             outlined
@@ -259,8 +259,8 @@
                       <v-col>
                         <validation-provider v-slot="{errors}" rules="required" name="Attributes">
                           <v-autocomplete
-                            v-model="attributes[0]"
-                            :items="attribute_names"
+                            v-model="product.attribute_id"
+                            :items="attributes"
                             item-text="name"
                             item-value="id"
                             outlined
@@ -270,10 +270,10 @@
                         </validation-provider>
                       </v-col>
                       <v-col>
-                        <validation-provider v-slot="{errors}" rules="required" name="Values">
+                        <validation-provider v-for="attribute in attributes" :key="attribute.id" v-slot="{errors}" rules="required" name="Values">
                           <v-autocomplete
                             v-model="values[0]"
-                            :items="attribute_values"
+                            :items="attribute.attribute_values"
                             item-text="name"
                             item-value="id"
                             outlined
@@ -356,6 +356,7 @@ export default {
     this.main_categories = data.main_categories
     this.categories = data.categories
     this.brands = data.brands
+    this.attributes = data.attributes
   },
   methods: {
     async submitForm () {
